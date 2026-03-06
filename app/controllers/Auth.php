@@ -30,7 +30,12 @@ class Auth extends Controller {
                     $_SESSION['user_session'] = $user;
                     $this->model('Log_model')->addLog("User login ke sistem");
                     
-                    Flasher::setFlash('Login Berhasil', 'Selamat datang kembali, ' . $user['nama_lengkap'] . '! Senang melihat Anda.', 'success');
+                    // Debug info
+                    $db_host = DB_HOST;
+                    $env = (strpos($db_host, 'aivencloud.com') !== false) ? 'Produksi (Aiven)' : 'Lokal (Development)';
+                    $debug_msg = "Selamat datang kembali, " . $user['nama_lengkap'] . "! [DEBUG: Host=$db_host | Env=$env]";
+                    
+                    Flasher::setFlash('Login Berhasil', $debug_msg, 'success');
                     
                     session_write_close();
                     header('Location: ' . BASEURL);
