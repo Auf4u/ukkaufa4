@@ -24,9 +24,9 @@ class Flasher {
             ];
             $validIcon = $iconMap[$tipe] ?? $tipe;
             
-            // Premium layout settings
-            $isToast  = ($validIcon === 'success') ? 'true' : 'false';
-            $position = ($validIcon === 'success') ? 'top-end' : 'center';
+            // Premium layout settings - Now all centered for clear debugging visibility
+            $isToast  = 'false';
+            $position = 'center';
 
             $jsonPesan = json_encode($pesan);
             $jsonAksi  = json_encode($aksi);
