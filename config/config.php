@@ -1,6 +1,10 @@
 <?php
-// Base URL configuration
-define('BASEURL', getenv('BASEURL') ?: 'http://localhost/Aufa/public');
+// Base URL configuration - Auto detect if not set in environment
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+$default_base = $protocol . $host . (strpos($host, 'localhost') !== false ? '/Aufa/public' : '');
+
+define('BASEURL', getenv('BASEURL') ?: $default_base);
 
 // Database configuration
 define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
