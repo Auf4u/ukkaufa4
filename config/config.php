@@ -1,6 +1,13 @@
 <?php
 // Base URL configuration - Auto detect if not set in environment
-$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+// Check for proxy-forwarded protocol (Vercel uses this)
+$protocol = 'http://';
+if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+    $protocol = 'https://';
+} elseif (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) {
+    $protocol = 'https://';
+}
+
 $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
 $default_base = $protocol . $host . (strpos($host, 'localhost') !== false ? '/Aufa/public' : '');
 
