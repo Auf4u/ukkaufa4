@@ -24,10 +24,10 @@ class User_model {
                   VALUES (:username, :password, :nama, :role, :status)";
         
         $this->db->query($query);
-        $this->db->bind('username', $data['username']);
-        $this->db->bind('password', md5($data['password'])); // MD5 as required
-        $this->db->bind('nama', $data['nama']);
-        $this->db->bind('role', $data['role']);
+        $this->db->bind('username', $data['username'] ?? '');
+        $this->db->bind('password', md5($data['password'] ?? '')); // MD5 as required
+        $this->db->bind('nama', $data['nama'] ?? '');
+        $this->db->bind('role', $data['role'] ?? 'peminjam');
         $this->db->bind('status', 'aktif');
 
         $this->db->execute();
@@ -55,11 +55,11 @@ class User_model {
         $query .= " WHERE id_user = :id";
         
         $this->db->query($query);
-        $this->db->bind('username', $data['username']);
-        $this->db->bind('nama', $data['nama']);
-        $this->db->bind('role', $data['role']);
+        $this->db->bind('username', $data['username'] ?? '');
+        $this->db->bind('nama', $data['nama'] ?? '');
+        $this->db->bind('role', $data['role'] ?? 'peminjam');
         $this->db->bind('status', $data['status'] ?? 'aktif');
-        $this->db->bind('id', $data['id_user']);
+        $this->db->bind('id', $data['id_user'] ?? 0);
         
         if(!empty($data['password'])) {
             $this->db->bind('password', md5($data['password']));

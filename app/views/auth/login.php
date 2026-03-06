@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         :root {
             --primary: #4f46e5;
@@ -27,11 +28,11 @@
 
         body {
             background-color: var(--bg-light);
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            padding: 2rem;
             position: relative;
         }
 
@@ -223,8 +224,6 @@
             font-weight: 600;
         }
     </style>
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
@@ -240,9 +239,11 @@
             <p class="brand-subtitle">Sistem Peminjaman Inventaris</p>
         </div>
 
-        <div style="margin-bottom: 2rem;">
-            <?php Flasher::flash(); ?>
-        </div>
+        <?php if(isset($_SESSION['flash'])): ?>
+            <div style="margin-bottom: 2rem;">
+                <?php Flasher::flash(); ?>
+            </div>
+        <?php endif; ?>
 
         <form action="<?= BASEURL; ?>/auth/login" method="post">
             <div class="form-group">

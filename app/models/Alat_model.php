@@ -23,7 +23,7 @@ class Alat_model {
     public function countAlat() {
         $this->db->query('SELECT COUNT(*) as total FROM ' . $this->table);
         $res = $this->db->single();
-        return $res['total'];
+        return $res['total'] ?? 0;
     }
 
     public function getAlatById($id) {
@@ -38,12 +38,12 @@ class Alat_model {
                   (:nama_alat, :id_kategori, :stok, :kondisi, :deskripsi, :gambar)";
         
         $this->db->query($query);
-        $this->db->bind('nama_alat', $data['nama_alat']);
-        $this->db->bind('id_kategori', $data['id_kategori']);
-        $this->db->bind('stok', $data['stok']);
-        $this->db->bind('kondisi', $data['kondisi']);
-        $this->db->bind('deskripsi', $data['deskripsi']);
-        $this->db->bind('gambar', $data['gambar']);
+        $this->db->bind('nama_alat', $data['nama_alat'] ?? '');
+        $this->db->bind('id_kategori', $data['id_kategori'] ?? 0);
+        $this->db->bind('stok', $data['stok'] ?? 0);
+        $this->db->bind('kondisi', $data['kondisi'] ?? 'Baik');
+        $this->db->bind('deskripsi', $data['deskripsi'] ?? '');
+        $this->db->bind('gambar', $data['gambar'] ?? 'default.png');
 
         $this->db->execute();
         return $this->db->rowCount();
@@ -68,13 +68,13 @@ class Alat_model {
                   WHERE id_alat = :id_alat";
         
         $this->db->query($query);
-        $this->db->bind('nama_alat', $data['nama_alat']);
-        $this->db->bind('id_kategori', $data['id_kategori']);
-        $this->db->bind('stok', $data['stok']);
-        $this->db->bind('kondisi', $data['kondisi']);
-        $this->db->bind('deskripsi', $data['deskripsi']);
-        $this->db->bind('gambar', $data['gambar']);
-        $this->db->bind('id_alat', $data['id_alat']);
+        $this->db->bind('nama_alat', $data['nama_alat'] ?? '');
+        $this->db->bind('id_kategori', $data['id_kategori'] ?? 0);
+        $this->db->bind('stok', $data['stok'] ?? 0);
+        $this->db->bind('kondisi', $data['kondisi'] ?? 'Baik');
+        $this->db->bind('deskripsi', $data['deskripsi'] ?? '');
+        $this->db->bind('gambar', $data['gambar'] ?? 'default.png');
+        $this->db->bind('id_alat', $data['id_alat'] ?? 0);
 
         $this->db->execute();
         return $this->db->rowCount();

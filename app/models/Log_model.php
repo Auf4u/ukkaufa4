@@ -9,7 +9,7 @@ class Log_model {
     }
 
     public function addLog($aktivitas) {
-        if(!isset($_SESSION['user_session'])) return 0;
+        if(!isset($_SESSION['user_session']) || !isset($_SESSION['user_session']['id_user'])) return 0;
         
         $id_user = $_SESSION['user_session']['id_user'];
         $query = "INSERT INTO log_aktivitas (id_user, aktivitas, tanggal) VALUES (:id_user, :aktivitas, NOW())";

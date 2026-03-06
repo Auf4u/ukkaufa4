@@ -19,7 +19,8 @@ class Pengembalian_model {
 
     public function getTotalDenda() {
         $this->db->query('SELECT SUM(denda) as total FROM pengembalian');
-        return $this->db->single()['total'];
+        $res = $this->db->single();
+        return $res['total'] ?? 0;
     }
 
     public function prosesPengembalian($data) {

@@ -11,48 +11,55 @@ class Auth extends Controller {
     }
 
     public function login() {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+        $username = isset($_POST['username']) ? trim($_POST['username']) : '';
+        $password = isset($_POST['password']) ? trim($_POST['password']) : '';
+
+        if (empty($username) || empty($password)) {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                Flasher::setFlash('Login Gagal', 'Username dan Password tidak boleh kosong.', 'error');
+            }
+            header('Location: ' . BASEURL . '/auth');
+            exit;
+        }
 
         $user = $this->model('User_model')->getUserByUsername($username);
 
         if($user) {
-            if($user['password_md5'] == md5($password)) {
+            if($user['password_md5'] === md5($password)) {
                 if($user['status'] == 'aktif') {
                     $_SESSION['user_session'] = $user;
                     $this->model('Log_model')->addLog("User login ke sistem");
-                    Flasher::setFlash('Login Berhasil', 'Selamat datang di LabApp Pro, ' . $user['nama_lengkap'], 'success');
+                    
+                    Flasher::setFlash('Login Berhasil', 'Selamat datang kembali, ' . $user['nama_lengkap'] . '! Senang melihat Anda.', 'success');
+                    
+                    session_write_close();
                     header('Location: ' . BASEURL);
                     exit;
                 } else {
-                    Flasher::setFlash('Akses Ditolak', 'Akun Anda sedang dinonaktifkan. Silakan hubungi admin.', 'error');
+                    Flasher::setFlash('Akses Ditolak', 'Akun Anda sedang dinonaktifkan. Silakan hubungi administrator.', 'warning');
                     header('Location: ' . BASEURL . '/auth');
                     exit;
                 }
             } else {
-                Flasher::setFlash('Login Gagal', 'Password yang Anda masukkan salah.', 'error');
+                Flasher::setFlash('Password Salah', 'Maaf, password yang Anda masukkan tidak sesuai.', 'error');
                 header('Location: ' . BASEURL . '/auth');
                 exit;
             }
         } else {
-            Flasher::setFlash('Login Gagal', 'Username tidak ditemukan.', 'error');
+            Flasher::setFlash('User Tidak Ada', 'Username tersebut belum terdaftar dalam sistem kami.', 'error');
             header('Location: ' . BASEURL . '/auth');
             exit;
         }
     }
 
     public function logout() {
-        $this->model('Log_model')->addLog("User logout dari sistem");
-        
-        session_unset();
-        session_destroy();
-        
-        // Start a fresh session just for the flash message
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
+        if(isset($_SESSION['user_session'])) {
+            $this->model('Log_model')->addLog("User logout dari sistem");
+            unset($_SESSION['user_session']);
         }
-        Flasher::setFlash('Berhasil Logout', 'Anda telah keluar dari sistem', 'success');
         
+        Flasher::setFlash('Berhasil Keluar', 'Anda telah aman keluar dari sistem. Sampai jumpa lagi!', 'success');
+        session_write_close();
         header('Location: ' . BASEURL . '/auth');
         exit;
     }

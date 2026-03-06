@@ -71,6 +71,7 @@ class Peminjaman_model {
 
             return 1;
         } catch (Exception $e) {
+            error_log($e->getMessage());
             return 0;
         }
     }
