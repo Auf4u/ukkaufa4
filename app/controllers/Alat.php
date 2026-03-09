@@ -57,8 +57,16 @@ class Alat extends Controller {
                 $ekstensiGambar = explode('.', $namaFile);
                 $ekstensiGambar = strtolower(end($ekstensiGambar));
                 $namaFileBaru = uniqid() . '.' . $ekstensiGambar;
-                move_uploaded_file($tmpName, 'img/alat/' . $namaFileBaru);
-                $gambar = $namaFileBaru;
+                $targetDir = 'img/alat/';
+                if (!is_dir($targetDir)) {
+                    @mkdir($targetDir, 0777, true);
+                }
+
+                if (is_writable($targetDir)) {
+                    if(@move_uploaded_file($tmpName, $targetDir . $namaFileBaru)) {
+                        $gambar = $namaFileBaru;
+                    }
+                }
             }
         }
 
@@ -114,14 +122,24 @@ class Alat extends Controller {
                 $ekstensiGambar = explode('.', $namaFile);
                 $ekstensiGambar = strtolower(end($ekstensiGambar));
                 $namaFileBaru = uniqid() . '.' . $ekstensiGambar;
-                move_uploaded_file($tmpName, 'img/alat/' . $namaFileBaru);
-                
-                // Optional: delete old image if not default
-                if($gambarLama != 'default.png' && file_exists('img/alat/' . $gambarLama)) {
-                    unlink('img/alat/' . $gambarLama);
+                $targetDir = 'img/alat/';
+                if (!is_dir($targetDir)) {
+                    @mkdir($targetDir, 0777, true);
                 }
-                
-                $_POST['gambar'] = $namaFileBaru;
+
+                if (is_writable($targetDir)) {
+                    if(@move_uploaded_file($tmpName, $targetDir . $namaFileBaru)) {
+                        // delete old image if not default and writable
+                        if($gambarLama != 'default.png' && file_exists($targetDir . $gambarLama)) {
+                            @unlink($targetDir . $gambarLama);
+                        }
+                        $_POST['gambar'] = $namaFileBaru;
+                    } else {
+                        $_POST['gambar'] = $gambarLama;
+                    }
+                } else {
+                    $_POST['gambar'] = $gambarLama;
+                }
             } else {
                 $_POST['gambar'] = $gambarLama;
             }

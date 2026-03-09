@@ -60,11 +60,15 @@ class Peminjaman extends Controller {
                 // Ensure directory exists relative to public/
                 $targetDir = 'img/peminjaman/';
                 if (!is_dir($targetDir)) {
-                    mkdir($targetDir, 0777, true);
+                    @mkdir($targetDir, 0777, true);
                 }
                 
-                move_uploaded_file($tmpName, $targetDir . $namaFileBaru);
-                $gambar = $namaFileBaru;
+                // Hanya pindahkan file jika direktori dapat ditulisi (untuk menghidari error di Vercel/Read-only FS)
+                if (is_writable($targetDir)) {
+                    if(@move_uploaded_file($tmpName, $targetDir . $namaFileBaru)) {
+                        $gambar = $namaFileBaru;
+                    }
+                }
             }
         }
 
