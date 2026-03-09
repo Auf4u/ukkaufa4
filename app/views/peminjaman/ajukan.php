@@ -67,6 +67,15 @@
             <input type="hidden" name="id_alat" value="<?= $data['alat']['id_alat']; ?>">
 
             <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; font-weight: 700; color: #475569; font-size: 0.9rem; margin-bottom: 0.75rem;">Nama Peminjam (Siswa)</label>
+                <div style="position: relative;">
+                    <i class="fas fa-user-graduate" style="position: absolute; left: 1.25rem; top: 50%; transform: translateY(-50%); color: #94a3b8;"></i>
+                    <input type="text" value="<?= $_SESSION['user_session']['nama_lengkap']; ?>" disabled
+                        style="width: 100%; padding: 1rem 1.25rem 1rem 3.5rem; border-radius: 16px; border: 2px solid #f1f5f9; background: #f8fafc; color: #64748b; outline: none; transition: 0.3s; font-weight: 700;">
+                </div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
                 <label style="display: block; font-weight: 700; color: #475569; font-size: 0.9rem; margin-bottom: 0.75rem;">Upload Foto Kondisi Alat</label>
                 <div style="position: relative; background: #f8fafc; border: 2px dashed #e2e8f0; padding: 1.5rem; border-radius: 16px; text-align: center; transition: 0.3s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='#e2e8f0'">
                     <i class="fas fa-camera" style="font-size: 1.5rem; color: #94a3b8; margin-bottom: 10px; display: block;"></i>
