@@ -1,4 +1,7 @@
 <?php
+/**
+ * DEPLOYMENT_VERSION: 1.0.4 - Fixing Vercel Read-Only FS Issues
+ */
 
 class Peminjaman extends Controller {
     public function __construct() {
@@ -58,23 +61,16 @@ class Peminjaman extends Controller {
                 $ekstensiGambar = strtolower(end($ekstensiGambar));
                 $namaFileBaru = 'bukti_' . uniqid() . '.' . $ekstensiGambar;
                 
-                // Ensure directory exists safely
+                // Bulletproof check for Vercel/Read-only environments
                 $targetDir = 'img/peminjaman/';
-                $parentDir = dirname($targetDir); // img/
                 
-                // Only try to create if it's potentially writable or already exists
-                if (!is_dir($targetDir)) {
-                    if (is_writable('.') || is_writable($parentDir)) {
-                        @mkdir($targetDir, 0777, true);
-                    }
-                }
-                
-                // Only move if directory exists and is writable
+                // Only move if directory exists AND is writable
                 if (is_dir($targetDir) && is_writable($targetDir)) {
                     if(@move_uploaded_file($tmpName, $targetDir . $namaFileBaru)) {
                         $gambar = $namaFileBaru;
                     }
                 }
+                // No else or warning here - fallback to $gambar = 'default_bukti.png'
             }
         }
 
