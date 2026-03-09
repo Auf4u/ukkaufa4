@@ -46,6 +46,7 @@ class Peminjaman extends Controller {
     }
 
     public function proses_ajukan() {
+        ob_start(); // Prevent any warning output from breaking headers
         $gambar = 'default_bukti.png';
         if(isset($_FILES['gambar_bukti']) && $_FILES['gambar_bukti']['name'] != '') {
             $namaFile = $_FILES['gambar_bukti']['name'];
@@ -57,14 +58,19 @@ class Peminjaman extends Controller {
                 $ekstensiGambar = strtolower(end($ekstensiGambar));
                 $namaFileBaru = 'bukti_' . uniqid() . '.' . $ekstensiGambar;
                 
-                // Ensure directory exists relative to public/
+                // Ensure directory exists safely
                 $targetDir = 'img/peminjaman/';
+                $parentDir = dirname($targetDir); // img/
+                
+                // Only try to create if it's potentially writable or already exists
                 if (!is_dir($targetDir)) {
-                    @mkdir($targetDir, 0777, true);
+                    if (is_writable('.') || is_writable($parentDir)) {
+                        @mkdir($targetDir, 0777, true);
+                    }
                 }
                 
-                // Hanya pindahkan file jika direktori dapat ditulisi (untuk menghidari error di Vercel/Read-only FS)
-                if (is_writable($targetDir)) {
+                // Only move if directory exists and is writable
+                if (is_dir($targetDir) && is_writable($targetDir)) {
                     if(@move_uploaded_file($tmpName, $targetDir . $namaFileBaru)) {
                         $gambar = $namaFileBaru;
                     }

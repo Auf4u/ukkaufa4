@@ -42,6 +42,7 @@ class Alat extends Controller {
     }
 
     public function tambah() {
+        ob_start();
         if($_SESSION['user_session']['role'] != 'admin') {
             header('Location: ' . BASEURL . '/alat');
             exit;
@@ -58,11 +59,15 @@ class Alat extends Controller {
                 $ekstensiGambar = strtolower(end($ekstensiGambar));
                 $namaFileBaru = uniqid() . '.' . $ekstensiGambar;
                 $targetDir = 'img/alat/';
+                $parentDir = dirname($targetDir);
+                
                 if (!is_dir($targetDir)) {
-                    @mkdir($targetDir, 0777, true);
+                    if (is_writable('.') || is_writable($parentDir)) {
+                        @mkdir($targetDir, 0777, true);
+                    }
                 }
 
-                if (is_writable($targetDir)) {
+                if (is_dir($targetDir) && is_writable($targetDir)) {
                     if(@move_uploaded_file($tmpName, $targetDir . $namaFileBaru)) {
                         $gambar = $namaFileBaru;
                     }
@@ -105,6 +110,7 @@ class Alat extends Controller {
     }
 
     public function ubah() {
+        ob_start();
         if($_SESSION['user_session']['role'] != 'admin') {
             header('Location: ' . BASEURL . '/alat');
             exit;
@@ -123,11 +129,15 @@ class Alat extends Controller {
                 $ekstensiGambar = strtolower(end($ekstensiGambar));
                 $namaFileBaru = uniqid() . '.' . $ekstensiGambar;
                 $targetDir = 'img/alat/';
+                $parentDir = dirname($targetDir);
+
                 if (!is_dir($targetDir)) {
-                    @mkdir($targetDir, 0777, true);
+                    if (is_writable('.') || is_writable($parentDir)) {
+                        @mkdir($targetDir, 0777, true);
+                    }
                 }
 
-                if (is_writable($targetDir)) {
+                if (is_dir($targetDir) && is_writable($targetDir)) {
                     if(@move_uploaded_file($tmpName, $targetDir . $namaFileBaru)) {
                         // delete old image if not default and writable
                         if($gambarLama != 'default.png' && file_exists($targetDir . $gambarLama)) {
