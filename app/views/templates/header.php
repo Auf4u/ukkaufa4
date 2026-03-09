@@ -33,7 +33,7 @@
                 </div>
                 
                 <?php if($_SESSION['user_session']['role'] == 'admin') : ?>
-                    <div style="padding: 1.5rem 0.5rem 0.5rem; color: #475569; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.6;">Sistem & Data</div>
+                    <div style="padding: 1.5rem 0.5rem 0.5rem; color: #475569; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.6;">Sistem & Inventaris</div>
                     <div class="nav-item <?= ($data['judul'] == 'Daftar Kategori') ? 'active' : ''; ?>">
                         <a href="<?= BASEURL; ?>/kategori" class="nav-link">
                             <i class="fas fa-tags"></i>
@@ -52,11 +52,8 @@
                             <span>Manajemen User</span>
                         </a>
                     </div>
-                <?php endif; ?>
 
-                <div style="padding: 1.5rem 0.5rem 0.5rem; color: #475569; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.6;">Aktivitas</div>
-                
-                <?php if($_SESSION['user_session']['role'] == 'petugas') : ?>
+                    <div style="padding: 1.5rem 0.5rem 0.5rem; color: #475569; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.6;">Transaksi & Laporan</div>
                     <div class="nav-item <?= ($data['judul'] == 'Data Peminjaman') ? 'active' : ''; ?>">
                         <a href="<?= BASEURL; ?>/peminjaman" class="nav-link">
                             <i class="fas fa-hand-holding-box"></i>
@@ -72,12 +69,9 @@
                     <div class="nav-item <?= ($data['judul'] == 'Cetak Laporan') ? 'active' : ''; ?>">
                         <a href="<?= BASEURL; ?>/laporan" class="nav-link">
                             <i class="fas fa-chart-pie"></i>
-                            <span>Laporan PDF</span>
+                            <span>Cetak Laporan</span>
                         </a>
                     </div>
-                <?php endif; ?>
-
-                <?php if($_SESSION['user_session']['role'] == 'admin') : ?>
                     <div class="nav-item <?= ($data['judul'] == 'Log Aktivitas') ? 'active' : ''; ?>">
                         <a href="<?= BASEURL; ?>/laporan/logs" class="nav-link">
                             <i class="fas fa-receipt"></i>
@@ -85,6 +79,7 @@
                         </a>
                     </div>
                 <?php endif; ?>
+
 
                 <?php if($_SESSION['user_session']['role'] == 'peminjam') : ?>
                     <div class="nav-item <?= ($data['judul'] == 'Daftar Alat (Peminjam)') ? 'active' : ''; ?>">

@@ -77,7 +77,7 @@
     <div class="glass-card" style="padding: 2rem; animation-delay: 0.5s;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
             <h3 style="font-weight: 800; letter-spacing: -0.5px;">Aktivitas Terakhir Sistem</h3>
-            <a href="<?= BASEURL; ?>/log" style="text-decoration: none; color: var(--primary); font-size: 0.85rem; font-weight: 700;">Lihat Semua Log <i class="fas fa-arrow-right"></i></a>
+            <a href="<?= BASEURL; ?>/laporan/logs" style="text-decoration: none; color: var(--primary); font-size: 0.85rem; font-weight: 700;">Lihat Semua Log <i class="fas fa-arrow-right"></i></a>
         </div>
 
         <div style="position: relative;">

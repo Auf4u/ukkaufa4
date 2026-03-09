@@ -1,9 +1,16 @@
 <?php
 
 class Alat extends Controller {
-    public function index() {
+    public function __construct() {
         if(!isset($_SESSION['user_session'])) {
             header('Location: ' . BASEURL . '/auth');
+            exit;
+        }
+    }
+
+    public function index() {
+        if($_SESSION['user_session']['role'] != 'admin') {
+            header('Location: ' . BASEURL . '/alat/daftar');
             exit;
         }
 

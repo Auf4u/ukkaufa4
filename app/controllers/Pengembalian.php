@@ -2,8 +2,8 @@
 
 class Pengembalian extends Controller {
     public function __construct() {
-        if(!isset($_SESSION['user_session']) || $_SESSION['user_session']['role'] != 'petugas') {
-            Flasher::setFlash('gagal', 'hanya petugas yang bisa mengakses pengembalian', 'danger');
+        if(!isset($_SESSION['user_session']) || $_SESSION['user_session']['role'] != 'admin') {
+            Flasher::setFlash('gagal', 'hanya admin yang bisa mengakses pengembalian', 'danger');
             header('Location: ' . BASEURL);
             exit;
         }

@@ -10,8 +10,8 @@ class Peminjaman extends Controller {
 
     public function index() {
         $role = $_SESSION['user_session']['role'];
-        if($role != 'petugas') {
-            if($role == 'peminjam') {
+        if($role != 'admin') {
+            if($role == 'peminjam' || $role == 'petugas') {
                 header('Location: ' . BASEURL . '/peminjaman/riwayat');
             } else {
                 header('Location: ' . BASEURL);
@@ -83,8 +83,8 @@ class Peminjaman extends Controller {
     }
 
     public function setujui($id) {
-        if($_SESSION['user_session']['role'] != 'petugas') {
-            Flasher::setFlash('gagal', 'hanya petugas yang bisa menyetujui', 'danger');
+        if($_SESSION['user_session']['role'] != 'admin') {
+            Flasher::setFlash('gagal', 'hanya admin yang bisa menyetujui', 'danger');
             header('Location: ' . BASEURL);
             exit;
         }
@@ -98,8 +98,8 @@ class Peminjaman extends Controller {
     }
 
     public function tolak($id) {
-        if($_SESSION['user_session']['role'] != 'petugas') {
-            Flasher::setFlash('gagal', 'hanya petugas yang bisa menolak', 'danger');
+        if($_SESSION['user_session']['role'] != 'admin') {
+            Flasher::setFlash('gagal', 'hanya admin yang bisa menolak', 'danger');
             header('Location: ' . BASEURL);
             exit;
         }
